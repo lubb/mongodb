@@ -60,4 +60,77 @@ public class StudentController {
         studentDao.save(student1);
         studentDao.save(student2);
     }
+
+    /**
+     * 查询mongodb当中的所有document
+     * @return
+     */
+    @RequestMapping("/findAll")
+    public List<Student> findAll() {
+        List<Student> list= studentDao.findAll();
+        return list;
+    }
+
+    /**
+     * 通过名字查询document
+     * @return
+     */
+    @RequestMapping("/findByName")
+    public List<Student> findByName() {
+        List<Student> student=studentDao.findByName("hzb");
+        return student;
+    }
+
+    /**
+     * 通过Student.Student.des查询document
+     * @param des
+     * @return
+     */
+    @RequestMapping("/findByStudentScoreDes")
+    public List<Student> findByStudentScore_Des(String des){
+        List<Student> student=studentDao.findByStudentScoreDes("hzb_child2");
+        return student;
+    }
+
+    /**
+     * 通过Student.name和Student.des查询document
+     * @param des
+     * @return
+     */
+    @RequestMapping("/findByNameAndDes")
+    public List<Student> findByNameAndDes(String des){
+        List<Student> student=studentDao.searchByNameAndDes("hzb","hzb_father");
+        return student;
+    }
+
+    /**
+     * 通过Student.name和Student.Student.des查询document
+     * @param des
+     * @return
+     */
+    @RequestMapping("/findByNameAndStudentScoreDes")
+    public List<Student> findByNameAndStudentScoreDes(String des){
+        List<Student> student=studentDao.searchByNameAndStudentScoreDes("hzb","hzb_child2");
+        return student;
+    }
+
+    /**
+     * 更新document
+     */
+    @RequestMapping("/updateByName")
+    public void ubdateByName(){
+        List<Student> students=studentDao.findByName("xiaweihu");
+        Student student=students.get(0);
+        student.setDes("aaaaaaaaaaaaaaaaaaaa");
+        student.getStudentScore().setDes("bbbbbbbbbbbbbbbbbbbbb");
+        studentDao.update(student);
+    }
+
+    /**
+     * 删除document
+     */
+    @RequestMapping("/deleteByName")
+    public void deleteByName(){
+        studentDao.remove("xiaweihu");
+    }
 }
